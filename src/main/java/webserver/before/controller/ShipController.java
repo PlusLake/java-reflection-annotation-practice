@@ -5,7 +5,7 @@ import java.util.*;
 
 import com.sun.net.httpserver.HttpExchange;
 
-public class Ship {
+public class ShipController {
     private static final List<String> SHIPS = new ArrayList<>();
 
     public static String getShips(HttpExchange exchange) {

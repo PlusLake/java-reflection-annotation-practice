@@ -18,9 +18,9 @@ public class Main {
         HttpServer server = HttpServer.create(new InetSocketAddress(21050), 0);
         server.createContext("/", Main::handle);
         controllers = new ControllerInitializer()
-                .create("GET", "/ship", Ship::getShips)
-                .create("POST", "/ship", Ship::addShip)
-                .create("GET", "/info", Info::info)
+                .create("GET", "/ship", ShipController::getShips)
+                .create("POST", "/ship", ShipController::addShip)
+                .create("GET", "/info", InfoController::info)
                 .done();
         server.start();
     }

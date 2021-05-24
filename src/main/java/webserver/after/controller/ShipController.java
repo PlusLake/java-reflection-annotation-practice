@@ -7,7 +7,7 @@ import com.sun.net.httpserver.HttpExchange;
 
 import webserver.after.annotation.*;
 
-public class Ship {
+public class ShipController {
     private static final List<String> WIFES = new ArrayList<>();
 
     @Get("/ship")

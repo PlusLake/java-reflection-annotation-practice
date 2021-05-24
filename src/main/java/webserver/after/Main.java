@@ -14,7 +14,7 @@ import webserver.after.controller.*;
 import webserver.common.Exceptions.NotFoundException;
 
 public class Main {
-    private static List<Class<?>> controllers = List.of(Ship.class, Info.class);
+    private static List<Class<?>> controllers = List.of(ShipController.class, InfoController.class);
 
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(21050), 0);
