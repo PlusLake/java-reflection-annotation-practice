@@ -8,15 +8,15 @@ import webserver.after.controller.*;
 import webserver.after.service.ShipService;
 
 public class Injector {
-    private static Comparator<Class<?>> LESS_PARAMETER = (a, b) -> a.getConstructors()[0].getParameterCount()
+    private static final Comparator<Class<?>> LESS_PARAMETER = (a, b) -> a.getConstructors()[0].getParameterCount()
             - b.getConstructors()[0].getParameterCount();
-    private static final List<Class<?>> components = List.of(
+    private static final List<Class<?>> COMPONENTS = List.of(
             ShipController.class, ShipService.class, SystemController.class, Logger.class);
 
     public static void inject() {
-        while (Container.size() != components.size()) {
+        while (Container.size() != COMPONENTS.size()) {
             int size = Container.size();
-            components.stream()
+            COMPONENTS.stream()
                     .filter(type -> Container.get(type) == null)
                     .sorted(LESS_PARAMETER)
                     .forEach(Injector::newInstance);
