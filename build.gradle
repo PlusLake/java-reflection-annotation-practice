@@ -1,0 +1,31 @@
+plugins {
+    id "java"
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+}
+
+sourceCompatibility = "11"
+targetCompatibility = "11"
+
+compileJava.options.encoding = "UTF-8"
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+jar {
+    manifest {
+        attributes(
+            "Main-Class": "webserver.Main"
+        )
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation "junit:junit:4.13"
+    implementation "org.reflections:reflections:0.9.12"
+    compileOnly "org.projectlombok:lombok:1.18.20" 
+    annotationProcessor "org.projectlombok:lombok:1.18.20"
+}
