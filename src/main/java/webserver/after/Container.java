@@ -18,4 +18,8 @@ public class Container {
         return container.size();
     }
 
+    public static Collection<Object> all() {
+        return container.values();
+    }
+
 }

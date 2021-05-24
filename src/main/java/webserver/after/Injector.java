@@ -8,6 +8,8 @@ import webserver.after.controller.*;
 import webserver.after.service.ShipService;
 
 public class Injector {
+    private static Comparator<Class<?>> LESS_PARAMETER = (a, b) -> a.getConstructors()[0].getParameterCount()
+            - b.getConstructors()[0].getParameterCount();
     private static final List<Class<?>> components = List.of(
             ShipController.class, ShipService.class, SystemController.class, Logger.class);
 
@@ -16,7 +18,7 @@ public class Injector {
             int size = Container.size();
             components.stream()
                     .filter(type -> Container.get(type) == null)
-                    .sorted(lessParameter())
+                    .sorted(LESS_PARAMETER)
                     .forEach(Injector::newInstance);
             if (Container.size() == size) {
                 // 循環依存などによる初期化失敗
@@ -41,7 +43,4 @@ public class Injector {
         }
     }
 
-    private static Comparator<Class<?>> lessParameter() {
-        return (a, b) -> a.getConstructors()[0].getParameterCount() - b.getConstructors()[0].getParameterCount();
-    }
 }

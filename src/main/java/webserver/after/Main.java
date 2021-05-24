@@ -10,27 +10,29 @@ import java.util.stream.Stream;
 import com.sun.net.httpserver.*;
 
 import webserver.after.annotation.*;
-import webserver.after.controller.*;
 import webserver.common.Exceptions.NotFoundException;
 
 public class Main {
-    private static List<Class<?>> controllers = List.of(ShipController.class, SystemController.class);
-
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(21050), 0);
         server.createContext("/", Main::handle);
+        Injector.inject();
         server.start();
     }
 
     public static void handle(HttpExchange exchange) throws IOException {
         try {
-            Method method = controllers.stream()
+            Method method = Container.all().stream()
+                    .map(Object::getClass)
                     .flatMap(c -> Stream.of(c.getDeclaredMethods()))
                     .filter(m -> methodMatches(exchange, m))
                     .filter(m -> pathMatches(exchange, m))
                     .findAny()
                     .orElseThrow(NotFoundException::new);
-            byte[] result = Optional.ofNullable(method.invoke(null, exchange))
+            Object instance = Container.all().stream()
+                    .filter(object -> Arrays.asList(object.getClass().getDeclaredMethods()).contains(method))
+                    .findAny().get();
+            byte[] result = Optional.ofNullable(method.invoke(instance, exchange))
                     .map(Object::toString)
                     .map(String::getBytes)
                     .orElse(new byte[] {});
