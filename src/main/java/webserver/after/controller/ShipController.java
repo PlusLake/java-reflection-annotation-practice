@@ -1,27 +1,35 @@
 package webserver.after.controller;
 
-import java.io.IOException;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import com.sun.net.httpserver.HttpExchange;
 
+import webserver.after.Logger;
 import webserver.after.annotation.*;
+import webserver.after.service.ShipService;
+import webserver.common.*;
+import webserver.common.Ship.ShipType;
 
 public class ShipController {
-    private static final List<String> WIFES = new ArrayList<>();
+    private final ShipService service;
+    private final Logger logger;
+
+    public ShipController(Logger logger, ShipService service) {
+        this.service = service;
+        this.logger = logger;
+    }
 
     @Get("/ship")
-    public static String getShips(HttpExchange exchange) {
-        return WIFES.toString();
+    public List<Ship> getShips(HttpExchange exchange) {
+        logger.log(LocalDateTime.now() + " ShipController: getShips");
+        return this.service.getShips();
     }
 
     @Post("/ship")
-    public static void addShip(HttpExchange exchange) {
-        try {
-            String newWife = new String(exchange.getRequestBody().readAllBytes());
-            WIFES.add(newWife);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void addShip(HttpExchange exchange) {
+        logger.log(LocalDateTime.now() + " ShipController: addShip");
+        String body = Utility.read(exchange);
+        this.service.addShip(new Ship(body, ShipType.HEAVY_CRUISER));
     }
 }

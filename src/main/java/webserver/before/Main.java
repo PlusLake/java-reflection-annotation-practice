@@ -20,7 +20,7 @@ public class Main {
         controllers = new ControllerInitializer()
                 .create("GET", "/ship", ShipController::getShips)
                 .create("POST", "/ship", ShipController::addShip)
-                .create("GET", "/info", InfoController::info)
+                .create("GET", "/status", SystemController::status)
                 .done();
         server.start();
     }
