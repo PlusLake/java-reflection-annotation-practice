@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import webserver.after.Logger;
+import webserver.after.annotation.Component;
 import webserver.common.Ship;
 
+@Component
 public class ShipService {
     private List<Ship> ships = new ArrayList<>();
     private final Logger logger;

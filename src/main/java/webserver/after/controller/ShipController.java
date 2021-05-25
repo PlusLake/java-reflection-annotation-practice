@@ -11,6 +11,7 @@ import webserver.after.service.ShipService;
 import webserver.common.*;
 import webserver.common.Ship.ShipType;
 
+@Component
 public class ShipController {
     private final ShipService service;
     private final Logger logger;

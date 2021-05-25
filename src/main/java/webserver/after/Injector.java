@@ -4,14 +4,15 @@ import java.lang.reflect.*;
 import java.util.*;
 import java.util.stream.*;
 
-import webserver.after.controller.*;
-import webserver.after.service.ShipService;
+import org.reflections.Reflections;
+
+import webserver.after.annotation.Component;
 
 public class Injector {
     private static final Comparator<Class<?>> LESS_PARAMETER = (a, b) -> a.getConstructors()[0].getParameterCount()
             - b.getConstructors()[0].getParameterCount();
-    private static final List<Class<?>> COMPONENTS = List.of(
-            ShipController.class, ShipService.class, SystemController.class, Logger.class);
+    private static final Set<Class<?>> COMPONENTS = new Reflections("webserver.after")
+            .getTypesAnnotatedWith(Component.class);
 
     public static void inject() {
         while (Container.size() != COMPONENTS.size()) {

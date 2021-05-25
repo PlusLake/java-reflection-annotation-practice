@@ -3,8 +3,9 @@ package webserver.after.controller;
 import com.sun.net.httpserver.HttpExchange;
 
 import webserver.after.Logger;
-import webserver.after.annotation.Get;
+import webserver.after.annotation.*;
 
+@Component
 public class SystemController {
     private final Logger logger;
 
@@ -12,8 +13,8 @@ public class SystemController {
         this.logger = logger;
     }
 
-    @Get("/info")
-    public String info(HttpExchange exchange) {
+    @Get("/status")
+    public String status(HttpExchange exchange) {
         logger.log("SystemController");
         return "System is running";
     }
